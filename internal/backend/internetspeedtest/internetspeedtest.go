@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"codeberg.org/el1lovescomputers/fasttest/internal/backend"
-	"codeberg.org/el1lovescomputers/fasttest/internal/backend/librespeed"
-	"codeberg.org/el1lovescomputers/fasttest/internal/measure"
+	"github.com/Lalaggi/fasttest/internal/backend"
+	"github.com/Lalaggi/fasttest/internal/backend/librespeed"
+	"github.com/Lalaggi/fasttest/internal/measure"
 )
 
 const serverListURL = "https://internetspeedtest.net/api/servers"

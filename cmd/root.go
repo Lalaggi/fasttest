@@ -11,13 +11,13 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/spf13/cobra"
 
-	"codeberg.org/el1lovescomputers/fasttest/internal/backend"
-	"codeberg.org/el1lovescomputers/fasttest/internal/backend/cloudflare"
-	"codeberg.org/el1lovescomputers/fasttest/internal/backend/fastcom"
-	"codeberg.org/el1lovescomputers/fasttest/internal/backend/internetspeedtest"
-	iperf3backend "codeberg.org/el1lovescomputers/fasttest/internal/backend/iperf3"
-	"codeberg.org/el1lovescomputers/fasttest/internal/measure"
-	"codeberg.org/el1lovescomputers/fasttest/internal/result"
+	"github.com/Lalaggi/fasttest/internal/backend"
+	"github.com/Lalaggi/fasttest/internal/backend/cloudflare"
+	"github.com/Lalaggi/fasttest/internal/backend/fastcom"
+	"github.com/Lalaggi/fasttest/internal/backend/internetspeedtest"
+	iperf3backend "github.com/Lalaggi/fasttest/internal/backend/iperf3"
+	"github.com/Lalaggi/fasttest/internal/measure"
+	"github.com/Lalaggi/fasttest/internal/result"
 )
 
 var (

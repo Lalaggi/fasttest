@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"codeberg.org/el1lovescomputers/fasttest/internal/measure"
+	"github.com/Lalaggi/fasttest/internal/measure"
 )
 
 type Server struct {

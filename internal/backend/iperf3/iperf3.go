@@ -16,9 +16,9 @@ import (
 	"sync"
 	"time"
 
-	"codeberg.org/el1lovescomputers/fasttest/internal/backend"
-	"codeberg.org/el1lovescomputers/fasttest/internal/measure"
-	"codeberg.org/el1lovescomputers/fasttest/internal/util"
+	"github.com/Lalaggi/fasttest/internal/backend"
+	"github.com/Lalaggi/fasttest/internal/measure"
+	"github.com/Lalaggi/fasttest/internal/util"
 )
 
 const (

@@ -27,7 +27,7 @@ or plain JSON output for scripting.
 ### From source
 
 ```sh
-go install codeberg.org/el1lovescomputers/fasttest@latest
+go install github.com/Lalaggi/fasttest@latest
 ```
 
 ### Build locally

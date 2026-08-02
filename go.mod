@@ -1,4 +1,4 @@
-module codeberg.org/el1lovescomputers/fasttest
+module github.com/Lalaggi/fasttest
 
 go 1.26.5
 

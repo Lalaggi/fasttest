@@ -7,8 +7,8 @@ import (
 
 	ndt7 "github.com/m-lab/ndt7-client-go"
 
-	"codeberg.org/el1lovescomputers/fasttest/internal/backend"
-	"codeberg.org/el1lovescomputers/fasttest/internal/measure"
+	"github.com/Lalaggi/fasttest/internal/backend"
+	"github.com/Lalaggi/fasttest/internal/measure"
 )
 
 type Backend struct{}

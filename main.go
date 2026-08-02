@@ -1,6 +1,6 @@
 package main
 
-import "codeberg.org/el1lovescomputers/fasttest/cmd"
+import "github.com/Lalaggi/fasttest/cmd"
 
 func main() {
 	cmd.Execute()
