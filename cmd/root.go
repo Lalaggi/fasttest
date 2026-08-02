@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/charmbracelet/bubbletea"
@@ -325,5 +326,5 @@ func capitalize(s string) string {
 	if s == "" {
 		return s
 	}
-	return string(s[0]-32) + s[1:]
+	return strings.ToUpper(s[:1]) + s[1:]
 }

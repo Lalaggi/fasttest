@@ -1,15 +1,14 @@
 package fastly
 
 import (
-	"bufio"
 	"context"
 	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
 	"codeberg.org/el1lovescomputers/fasttest/internal/backend"
 	"codeberg.org/el1lovescomputers/fasttest/internal/measure"
+	"codeberg.org/el1lovescomputers/fasttest/internal/util"
 )
 
 const (
@@ -50,7 +49,7 @@ func (b *Backend) Init(_ context.Context) (backend.ClientInfo, error) {
 		return backend.ClientInfo{}, fmt.Errorf("trace returned status %d", resp.StatusCode)
 	}
 
-	info := parseTrace(resp)
+	info := util.ParseTrace(resp)
 	loc := ""
 	if info["city"] != "" {
 		loc = info["city"] + ", " + info["country"]
@@ -61,18 +60,6 @@ func (b *Backend) Init(_ context.Context) (backend.ClientInfo, error) {
 		ASN:      info["asn"],
 		Location: loc,
 	}, nil
-}
-
-func parseTrace(resp *http.Response) map[string]string {
-	info := make(map[string]string)
-	scanner := bufio.NewScanner(resp.Body)
-	for scanner.Scan() {
-		line := scanner.Text()
-		if idx := strings.IndexByte(line, '='); idx > 0 {
-			info[strings.TrimSpace(line[:idx])] = strings.TrimSpace(line[idx+1:])
-		}
-	}
-	return info
 }
 
 func (b *Backend) DiscoverServers(_ context.Context, count int) ([]backend.Server, error) {
