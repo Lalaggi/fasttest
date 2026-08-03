@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"sort"
 	"time"
 
 	"github.com/Lalaggi/fasttest/internal/backend"
@@ -44,7 +45,7 @@ func (b *Backend) Init(_ context.Context) (backend.ClientInfo, error) {
 		req.Header.Set(k, v)
 	}
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := util.HTTPClient.Do(req)
 	if err != nil {
 		return backend.ClientInfo{}, fmt.Errorf("fetching trace: %w", err)
 	}
@@ -110,7 +111,7 @@ func (b *Backend) TestLatency(_ context.Context, _ backend.Server) (time.Duratio
 		}
 
 		start := time.Now()
-		resp, err := http.DefaultClient.Do(req)
+		resp, err := util.HTTPClient.Do(req)
 		elapsed := time.Since(start)
 
 		if err != nil {
@@ -121,10 +122,6 @@ func (b *Backend) TestLatency(_ context.Context, _ backend.Server) (time.Duratio
 		latencies = append(latencies, elapsed)
 	}
 
-	for i := 1; i < len(latencies); i++ {
-		for j := i; j > 0 && latencies[j] < latencies[j-1]; j-- {
-			latencies[j], latencies[j-1] = latencies[j-1], latencies[j]
-		}
-	}
+	sort.Slice(latencies, func(i, j int) bool { return latencies[i] < latencies[j] })
 	return latencies[len(latencies)/2], nil
 }

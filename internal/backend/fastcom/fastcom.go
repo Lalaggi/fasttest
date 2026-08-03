@@ -4,10 +4,12 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"sort"
 	"time"
 
 	"github.com/Lalaggi/fasttest/internal/backend"
 	"github.com/Lalaggi/fasttest/internal/measure"
+	"github.com/Lalaggi/fasttest/internal/util"
 )
 
 type Backend struct {
@@ -114,7 +116,7 @@ func (b *Backend) TestLatency(_ context.Context, server backend.Server) (time.Du
 		req.Header.Set("Accept-Encoding", "identity")
 
 		start := time.Now()
-		resp, err := http.DefaultClient.Do(req)
+		resp, err := util.HTTPClient.Do(req)
 		elapsed := time.Since(start)
 
 		if err != nil {
@@ -125,10 +127,6 @@ func (b *Backend) TestLatency(_ context.Context, server backend.Server) (time.Du
 		latencies = append(latencies, elapsed)
 	}
 
-	for i := 1; i < len(latencies); i++ {
-		for j := i; j > 0 && latencies[j] < latencies[j-1]; j-- {
-			latencies[j], latencies[j-1] = latencies[j-1], latencies[j]
-		}
-	}
+	sort.Slice(latencies, func(i, j int) bool { return latencies[i] < latencies[j] })
 	return latencies[len(latencies)/2], nil
 }

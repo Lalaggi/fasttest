@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
+
+	"github.com/Lalaggi/fasttest/internal/util"
 )
 
 const fallbackToken = "YXNkZmFzZGxmbnNkYWZoYXNkZmhrYWxm"
@@ -27,7 +29,7 @@ func getToken() (string, error) {
 
 func validateToken(token string) (bool, error) {
 	url := fmt.Sprintf("https://api.fast.com/netflix/speedtest/v2?https=true&token=%s&urlCount=1", token)
-	resp, err := http.Get(url)
+	resp, err := util.HTTPClient.Get(url)
 	if err != nil {
 		return false, err
 	}
@@ -36,7 +38,7 @@ func validateToken(token string) (bool, error) {
 }
 
 func scrapeToken() (string, error) {
-	resp, err := http.Get("https://fast.com/")
+	resp, err := util.HTTPClient.Get("https://fast.com/")
 	if err != nil {
 		return "", fmt.Errorf("fetching fast.com: %w", err)
 	}
@@ -54,7 +56,7 @@ func scrapeToken() (string, error) {
 	}
 
 	scriptURL := "https://fast.com/" + scriptMatch[1]
-	resp2, err := http.Get(scriptURL)
+	resp2, err := util.HTTPClient.Get(scriptURL)
 	if err != nil {
 		return "", fmt.Errorf("fetching app script: %w", err)
 	}

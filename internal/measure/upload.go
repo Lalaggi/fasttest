@@ -8,6 +8,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/Lalaggi/fasttest/internal/util"
 )
 
 const uploadChunkSize = 25 * 1024 * 1024 // 25MB per request
@@ -178,7 +180,7 @@ func uploadChunk(url string, totalBytes *atomic.Int64, done <-chan struct{}, log
 	}
 	req.Header.Set("Content-Type", "application/octet-stream")
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := util.HTTPClient.Do(req)
 	if err != nil {
 		log(fmt.Sprintf("http error: %v", err))
 		return err

@@ -6,10 +6,12 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"sort"
 	"time"
 
 	"github.com/Lalaggi/fasttest/internal/backend"
 	"github.com/Lalaggi/fasttest/internal/measure"
+	"github.com/Lalaggi/fasttest/internal/util"
 )
 
 const defaultServerList = "https://librespeed.org/backend-servers/servers.php"
@@ -67,7 +69,7 @@ func (b *Backend) Init(ctx context.Context) (backend.ClientInfo, error) {
 		req.Header.Set(k, v)
 	}
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := util.HTTPClient.Do(req)
 	if err != nil {
 		return backend.ClientInfo{}, err
 	}
@@ -102,7 +104,7 @@ func (b *Backend) fetchServers(ctx context.Context) ([]serverJSON, error) {
 	}
 	req.Header.Set("User-Agent", "fasttest/1.0")
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := util.HTTPClient.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("fetching server list: %w", err)
 	}
@@ -189,7 +191,7 @@ func (b *Backend) TestLatency(ctx context.Context, server backend.Server) (time.
 		}
 
 		start := time.Now()
-		resp, err := http.DefaultClient.Do(req)
+		resp, err := util.HTTPClient.Do(req)
 		elapsed := time.Since(start)
 		if err != nil {
 			return 0, err
@@ -198,14 +200,6 @@ func (b *Backend) TestLatency(ctx context.Context, server backend.Server) (time.
 		latencies = append(latencies, elapsed)
 	}
 
-	sortDurations(latencies)
+	sort.Slice(latencies, func(i, j int) bool { return latencies[i] < latencies[j] })
 	return latencies[len(latencies)/2], nil
-}
-
-func sortDurations(d []time.Duration) {
-	for i := 1; i < len(d); i++ {
-		for j := i; j > 0 && d[j] < d[j-1]; j-- {
-			d[j], d[j-1] = d[j-1], d[j]
-		}
-	}
 }

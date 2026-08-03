@@ -86,7 +86,7 @@ func (b *Backend) Init(_ context.Context) (backend.ClientInfo, error) {
 		req.Header.Set(k, v)
 	}
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := util.HTTPClient.Do(req)
 	if err != nil {
 		return backend.ClientInfo{}, fmt.Errorf("fetching trace: %w", err)
 	}
@@ -154,7 +154,7 @@ func (b *Backend) DiscoverServers(_ context.Context, count int) ([]backend.Serve
 func fetchServers() ([]apiServer, error) {
 	var combined []apiServer
 
-	resp, err := http.Get(serverListURL)
+	resp, err := util.HTTPClient.Get(serverListURL)
 	if err == nil {
 		defer resp.Body.Close()
 		if resp.StatusCode == http.StatusOK {
@@ -185,7 +185,7 @@ func fetchCuratedServers() ([]apiServer, error) {
 
 	var all []apiServer
 	for _, url := range urls {
-		resp, err := http.Get(url)
+		resp, err := util.HTTPClient.Get(url)
 		if err != nil {
 			continue
 		}

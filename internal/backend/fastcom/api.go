@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/Lalaggi/fasttest/internal/util"
 )
 
 type target struct {
@@ -38,7 +40,7 @@ func getTargets(token string, count int) (clientInfo, []target, error) {
 	req.Header.Set("Referer", "https://fast.com/")
 	req.Header.Set("Origin", "https://fast.com")
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := util.HTTPClient.Do(req)
 	if err != nil {
 		return clientInfo{}, nil, fmt.Errorf("fetching targets: %w", err)
 	}

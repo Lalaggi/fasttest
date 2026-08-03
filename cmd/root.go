@@ -16,6 +16,7 @@ import (
 	"github.com/Lalaggi/fasttest/internal/backend/fastcom"
 	"github.com/Lalaggi/fasttest/internal/backend/internetspeedtest"
 	iperf3backend "github.com/Lalaggi/fasttest/internal/backend/iperf3"
+	"github.com/Lalaggi/fasttest/internal/backend/librespeed"
 	"github.com/Lalaggi/fasttest/internal/measure"
 	"github.com/Lalaggi/fasttest/internal/result"
 )
@@ -46,7 +47,7 @@ func init() {
 	rootCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "show detailed progress output")
 	rootCmd.Flags().DurationVar(&duration, "duration", 20*time.Second, "test duration")
 	rootCmd.Flags().IntVarP(&servers, "servers", "s", 5, "number of test servers")
-	rootCmd.Flags().StringVarP(&backendName, "backend", "b", "cloudflare", "backend (cloudflare, fastcom, internetspeedtest, iperf3)")
+	rootCmd.Flags().StringVarP(&backendName, "backend", "b", "cloudflare", "backend (cloudflare, fastcom, internetspeedtest, iperf3, librespeed)")
 }
 
 func Execute() {
@@ -65,8 +66,10 @@ func getBackend(name string) (backend.Backend, error) {
 		return internetspeedtest.New(), nil
 	case "iperf3":
 		return iperf3backend.New(), nil
+	case "librespeed":
+		return librespeed.New(), nil
 	default:
-		return nil, fmt.Errorf("unknown backend: %s\navailable backends: cloudflare, fastcom, internetspeedtest, iperf3", name)
+		return nil, fmt.Errorf("unknown backend: %s\navailable backends: cloudflare, fastcom, internetspeedtest, iperf3, librespeed", name)
 	}
 }
 
